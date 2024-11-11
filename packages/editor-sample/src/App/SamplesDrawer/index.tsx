@@ -3,6 +3,7 @@ import React from 'react';
 import { Box, Button, Divider, Drawer, Link, Stack, Typography } from '@mui/material';
 
 import { useSamplesDrawerOpen } from '../../documents/editor/EditorContext';
+import EnterpriseTemplates from '../OmniChannelExtra/templateList';
 
 import SidebarButton from './SidebarButton';
 import logo from './waypoint.svg';
@@ -42,12 +43,7 @@ export default function SamplesDrawer() {
           <Divider />
 
           <Stack>
-            <Button size="small" href="https://www.usewaypoint.com/open-source/emailbuilderjs" target="_blank">
-              Learn more
-            </Button>
-            <Button size="small" href="https://github.com/usewaypoint/email-builder-js" target="_blank">
-              View on GitHub
-            </Button>
+            <EnterpriseTemplates/>
           </Stack>
         </Stack>
         <Stack spacing={2} px={0.75} py={3}>
