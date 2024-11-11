@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { CloseOutlined, SaveOutlined } from '@mui/icons-material';
 import { Box, IconButton, Input, Modal, Tooltip, Typography } from '@mui/material';
@@ -19,14 +19,22 @@ const style = {
   p: 4,
 };
 
-export default function OmniChannelSave() {
+export default function OmniChannelSave({template}) {
   const [templateName, setTemplateName] = useState('');
+  const [subject, setSubject] = useState('');
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const document = useDocument();
   const htmlDoc = useMemo(() => renderToStaticMarkup(document, { rootBlockId: 'root' }), [document]);
+
+  useEffect(() => {
+    if (template) {
+      setTemplateName(template.name);
+      setSubject(template.subject);
+    }
+  }, [template]);
 
   const save = () => {
     if (templateName) {
@@ -38,7 +46,7 @@ export default function OmniChannelSave() {
   };
 
   const store = () => {
-    storeTemplate(templateName, JSON.stringify(document), htmlDoc)
+    storeTemplate(templateName, subject, JSON.stringify(document), htmlDoc)
       .then(() => {
         handleClose();
       })
@@ -48,7 +56,7 @@ export default function OmniChannelSave() {
   };
 
   const update = (id: number) => {
-    updateTemplate(id, templateName, 3, JSON.stringify(document), htmlDoc)
+    updateTemplate(id, templateName, subject, 3, JSON.stringify(document), htmlDoc)
       .then(() => {
         handleClose();
       })
@@ -78,8 +86,17 @@ export default function OmniChannelSave() {
             placeholder="Template Name"
             sx={{ mt: 4 }}
             autoFocus
+            fullWidth={true}
             value={templateName}
             onChange={(e) => setTemplateName(e.target.value)}
+          />
+          <Input
+            placeholder="Subject"
+            sx={{ mt: 4 }}
+            autoFocus
+            fullWidth={true}
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
           />
           <Tooltip title="Save">
             <IconButton onClick={save}>

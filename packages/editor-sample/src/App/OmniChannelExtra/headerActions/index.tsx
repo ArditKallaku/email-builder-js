@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Cancel } from '@mui/icons-material';
 import { IconButton, Link, Tooltip } from '@mui/material';
@@ -11,18 +11,21 @@ import OmniChannelSave from './save';
 export default function OmniChannelActions() {
   const url = new URL(window.location.href);
   const id = url.searchParams.get('id');
+  const [template, setTemplate] = useState(null);
 
   useEffect(() => {
-    if(id){
+    if (id) {
       getTemplate(parseInt(id))
         .then((response) => {
           resetDocument(JSON.parse(response.data.json_body));
+          setTemplate(response.data);
         })
         .catch((error) => {
           console.error(error);
+          setTemplate(null);
         });
     }
-  }, [id]);
+  }, []);
 
   return (
     <>
@@ -33,7 +36,7 @@ export default function OmniChannelActions() {
           </IconButton>
         </Link>
       </Tooltip>
-      <OmniChannelSave/>
+      <OmniChannelSave template={template} />
     </>
   );
 }

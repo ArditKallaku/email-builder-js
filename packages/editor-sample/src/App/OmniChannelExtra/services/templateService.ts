@@ -1,9 +1,10 @@
 import apiClient from './apiClient';
 
 //store new template
-export const storeTemplate = async (name : string, json_body : string, html_body : string) => {
+export const storeTemplate = async (name : string, subject : string, json_body : string, html_body : string) => {
   const response = await apiClient.post('/email/template', {
     name : name,
+    subject : subject,
     json_body : json_body,
     html_body : html_body,
   });
@@ -29,9 +30,10 @@ export const deleteTemplate = async (id: number) => {
 };
 
 //update template
-export const updateTemplate = async (id: number, name : string, status_id : number, json_body : string, html_body : string) => {
+export const updateTemplate = async (id: number, name : string, subject : string, status_id : number, json_body : string, html_body : string) => {
   const response = await apiClient.put(`/email/template/${id}`, {
     name : name,
+    subject : subject,
     status_id : status_id,
     json_body : json_body,
     html_body : html_body,
